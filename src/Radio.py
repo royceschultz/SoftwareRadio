@@ -33,9 +33,16 @@ def collect(n_samples):
     samples = sdr.read_samples(n_samples * 50)
     return samples
 
-def demod(samples):
+def demodFM(samples, offsetFrequency=0):
+    if offsetFrequency != 0:
+        w = -1.0j * 2.0 * np.pi * ( offsetFrequency / samp_rate ) * np.arange(len(samples))
+        samples = samples * np.exp(w)
+    # Low pass filter
     filtered = signal.lfilter(taps, 1.0, samples)
+    # Calculate phase difference
     dtheta = np.angle(filtered[1:] * np.conj(filtered[:-1]))
-    decimated = dtheta[::50] # decimate
+    # Decimate
+    decimated = dtheta[::50]
+    # De-emphasis filter
     filtered_fm_signal = signal.lfilter(bz, az, decimated)
     return filtered_fm_signal
