@@ -11,6 +11,7 @@ class SignalSource(BaseBlock):
         self.sdr.sample_rate = 24e5
         self.sdr.center_freq = 93.3e6
         self.sdr.gain = 20
+        self.sdr.gain = 'auto'
 
         self.STOP = False
         self.block_size = block_size

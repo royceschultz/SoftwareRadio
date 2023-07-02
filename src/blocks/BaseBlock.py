@@ -14,12 +14,10 @@ class BaseBlock:
         pass
 
     def startSelf(self):
-        print('BaseBlock Start')
-        pass
+        raise Exception('startSelf not implemented')
 
     def stopSelf(self):
-        print('BaseBlock Stop')
-        pass
+        raise Exception('stopSelf not implemented')
 
     def start(self, recursive=False):
         self.startSelf()
