@@ -3,6 +3,8 @@ import threading
 import numpy as np
 from scipy import signal
 
+from .BaseBlock import BaseBlock
+
 
 # Filter Settings
 samp_rate = 24e5
@@ -36,23 +38,12 @@ def demodFM(
     return filtered_fm_signal
 
 
-class FMDecoder:
+class FMDecoder(BaseBlock):
     def __init__(self, offset_frequency=0):
-        self.outputs = []
-        self.buffer = []
+        BaseBlock.__init__(self)
         self.STOP = False
         self.thread = None
         self.offset_frequency = offset_frequency
-
-    def addOutput(self, output):
-        self.outputs.append(output)
-
-    def write(self, samples):
-        if len(self.buffer) > 10:
-            # print('OVERFLOW - FMDecoder')
-            return
-        self.buffer.append(samples)
-        pass
 
     def decode(self):
         while True:
@@ -65,21 +56,13 @@ class FMDecoder:
             for output in self.outputs:
                 output.write(demodulated)
 
-    def start(self, recursive=False):
+    def startSelf(self):
         print('Starting FMDecoder')
         self.STOP = False
         self.thread = threading.Thread(target=self.decode)
         self.thread.start()
-
-        if recursive:
-            for output in self.outputs:
-                output.start(recursive=True)
     
-    def stop(self, recursive=False):
+    def stopSelf(self):
         print('Stopping FMDecoder')
         self.STOP = True
         self.thread.join()
-
-        if recursive:
-            for output in self.outputs:
-                output.stop(recursive=True)

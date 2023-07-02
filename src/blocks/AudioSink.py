@@ -1,13 +1,14 @@
 import sounddevice as sd
 import numpy as np
 
-class AudioSink:
+from .BaseBlock import BaseBlock
+
+class AudioSink(BaseBlock):
     def __init__(self):
+        BaseBlock.__init__(self)
         self.block_size = 1024
         self.n_channels = 1
         self.device_id = 1
-
-        self.buffer = []
 
         self.stream = sd.OutputStream(
             samplerate=48000.0, blocksize=self.block_size,
@@ -16,6 +17,10 @@ class AudioSink:
             dtype='float32'
         )
 
+    def addOutput(self, output):
+        # Overwrite BaseBlock.addOutput
+        # AudioSink does not have outputs
+        raise Exception('AudioSink does not have outputs')
 
     def callback(self, outdata, frames, time, status):
         if len(self.buffer) == 0:
@@ -23,19 +28,11 @@ class AudioSink:
             outdata.fill(0)
             return
         outdata[:, 0] = self.buffer.pop(0)
-
-    def write(self, samples):
-        if len(self.buffer) > 10:
-            # print('OVERFLOW - AudioSink')
-            return
-        self.buffer.append(samples)
     
-    def start(self, recursive=False):
+    def startSelf(self):
         print('Starting AudioSink')
         self.stream.start()
-        # No outputs to start recursively
     
-    def stop(self, recursive=False):
+    def stopSelf(self):
         print('Stopping AudioSink')
         self.stream.stop()
-        # No outputs to stop recursively
