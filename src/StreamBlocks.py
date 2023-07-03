@@ -1,27 +1,21 @@
-from blocks.SignalSource import SignalSource
-from blocks.FMDecoder import FMDecoder
-from blocks.AudioSink import AudioSink
+from blocks import SignalSource, \
+    LowPassFilter, Decimate, \
+    FMDecoder, FMDemphasis, AudioSink, Sequential
 
-source = SignalSource()
+source = SignalSource(block_size=1024 * 50)
+lowPass = LowPassFilter(sample_rate=24e5, cutoff_frequency=100e3, transition_width=100e3)
 decoder = FMDecoder()
+decimate = Decimate(decimation_factor=50)
+demphasis = FMDemphasis()
 sink = AudioSink()
 
-decoder2 = FMDecoder(offset_frequency=-400e3)
-sink2 = AudioSink()
+fmDemodSequence = Sequential(lowPass, decoder, decimate, demphasis)
 
-source.addOutput(decoder)
-decoder.addOutput(sink)
-
-source.addOutput(decoder2)
-decoder2.addOutput(sink2)
+source.addOutput(fmDemodSequence)
+fmDemodSequence.addOutput(sink)
 
 source.start(recursive=True)
 
 input('Press enter to stop\n')
-decoder.stop(recursive=True)
-input()
-decoder2.stop(recursive=True)
-decoder.start(recursive=True)
-input()
 
 source.stop(recursive=True)

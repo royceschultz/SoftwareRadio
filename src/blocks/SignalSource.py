@@ -5,18 +5,17 @@ from .BaseBlock import BaseBlock
 
 
 class SignalSource(BaseBlock):
-    def __init__(self, block_size=1024):
+    def __init__(self, block_size=1024, sample_rate=24e5, center_freq=93.3e6):
         BaseBlock.__init__(self)
         self.sdr = RtlSdr()
-        self.sdr.sample_rate = 24e5
-        self.sdr.center_freq = 93.3e6
+        self.sdr.sample_rate = sample_rate
+        self.setFrequency(center_freq)
         self.sdr.gain = 20
         self.sdr.gain = 'auto'
 
         self.STOP = False
         self.block_size = block_size
         self.thread = None
-        pass
 
     def setFrequency(self, freq):
         self.sdr.center_freq = freq
@@ -35,6 +34,6 @@ class SignalSource(BaseBlock):
     def listen(self):
         while True:
             if self.STOP: return
-            samples = self.sdr.read_samples(self.block_size * 50)
+            samples = self.sdr.read_samples(self.block_size)
             for output in self.outputs:
                 output.write(samples)
