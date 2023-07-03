@@ -1,7 +1,7 @@
 import sounddevice as sd
 import numpy as np
 
-from .BaseBlock import BaseBlock
+from ..BaseBlock import BaseBlock
 
 class AudioSink(BaseBlock):
     def __init__(self):

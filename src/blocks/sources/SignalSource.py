@@ -1,7 +1,7 @@
 from rtlsdr import *
 import threading
 
-from .BaseBlock import BaseBlock
+from ..BaseBlock import BaseBlock
 
 
 class SignalSource(BaseBlock):

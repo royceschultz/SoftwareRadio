@@ -1,4 +1,4 @@
-from .BaseBlock import BaseBlock
+from ..BaseBlock import BaseBlock
 
 class Decimate(BaseBlock):
     def __init__(self, decimation_factor=50):

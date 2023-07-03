@@ -3,7 +3,7 @@ import threading
 import numpy as np
 from scipy import signal
 
-from .BaseBlock import BaseBlock
+from ..BaseBlock import BaseBlock
 
 # De-emphasis filter parameters
 bz, az = signal.bilinear(1, [75e-6, 1], fs=48e3)

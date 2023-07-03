@@ -2,7 +2,7 @@ import time
 import threading
 import numpy as np
 
-from .BaseBlock import BaseBlock
+from ..BaseBlock import BaseBlock
 
 
 class AMDecoder(BaseBlock):

@@ -1,13 +1,15 @@
 # Sources
-from .SignalSource import SignalSource
+from .sources.SignalSource import SignalSource
 # Sinks
-from .AudioSink import AudioSink
+from .sinks.AudioSink import AudioSink
 # Filters
-from .LowPassFilter import LowPassFilter
-from .Decimate import Decimate
+from .filters.LowPassFilter import LowPassFilter
+from .filters.Decimate import Decimate
 # Demodulators
-from .AMDecoder import AMDecoder
-from .FMDecoder import FMDecoder
-from .FMDemphasis import FMDemphasis
+from .demodulators.AMDecoder import AMDecoder
+from .demodulators.FMDecoder import FMDecoder
+from .filters.FMDemphasis import FMDemphasis
+# Demdulator Modules
+from .demodulators.FMReceiver import FMReceiver
 # Combinators
-from .Sequential import Sequential
+from .misc.Sequential import Sequential

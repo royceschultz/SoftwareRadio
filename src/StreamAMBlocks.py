@@ -1,9 +1,4 @@
-from blocks.SignalSource import SignalSource
-from blocks.AMDecoder import AMDecoder
-from blocks.LowPassFilter import LowPassFilter
-from blocks.AudioSink import AudioSink
-from blocks.Sequential import Sequential
-from blocks.Decimate import Decimate
+from blocks import SignalSource, AMDecoder, LowPassFilter, AudioSink, Sequential, Decimate
 
 source = SignalSource(block_size=1024 * 50)
 lowPass = LowPassFilter(sample_rate=24e5, cutoff_frequency=5e3, transition_width=20e3)

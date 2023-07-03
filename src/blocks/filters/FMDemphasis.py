@@ -1,4 +1,4 @@
-from .BaseBlock import BaseBlock
+from ..BaseBlock import BaseBlock
 from scipy import signal
 
 # De-emphasis filter parameters

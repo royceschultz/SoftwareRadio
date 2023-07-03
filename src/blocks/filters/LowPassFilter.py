@@ -3,7 +3,7 @@ from scipy import signal
 import threading
 import time
 
-from .BaseBlock import BaseBlock
+from ..BaseBlock import BaseBlock
 
 class LowPassFilter(BaseBlock):
     def __init__(self, sample_rate, cutoff_frequency=100e3, transition_width=100e3, offset_frequency=0):
