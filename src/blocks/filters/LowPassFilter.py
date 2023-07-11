@@ -1,7 +1,5 @@
 import numpy as np
 from scipy import signal
-import threading
-import time
 
 from ..BaseBlock import BaseBlock
 
@@ -36,27 +34,6 @@ class LowPassFilter(BaseBlock):
         # Low pass filter
         filtered = signal.lfilter(self.taps, 1.0, samples)
         return filtered
-    
-    def threadRunner(self):
-        while True:
-            if self.STOP: return
-            if len(self.buffer) == 0:
-                time.sleep(0.1)
-                continue
-            samples = self.buffer.pop(0)
-            filtered = self.run(samples)
-            for output in self.outputs:
-                output.write(filtered)
-        
-    def startSelf(self):
-        print('Starting LowPassFilter')
-        self.STOP = False
-        self.thread = threading.Thread(target=self.threadRunner)
-        self.thread.start()
 
-    def stopSelf(self):
-        print('Stopping LowPassFilter')
-        self.STOP = True
-        self.thread.join()
         
         

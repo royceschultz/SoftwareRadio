@@ -14,6 +14,7 @@ class Sequential(BaseBlock):
     def run(self, samples):
         for block in self.blocks:
             samples = block.run(samples)
+            block.emit(samples) # forward to other branches
         return samples
 
     def threadRunner(self):
