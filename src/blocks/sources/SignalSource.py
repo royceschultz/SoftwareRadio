@@ -35,5 +35,4 @@ class SignalSource(BaseBlock):
         while True:
             if self.STOP: return
             samples = self.sdr.read_samples(self.block_size)
-            for output in self.outputs:
-                output.write(samples)
+            self.emit(samples)
